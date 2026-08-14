@@ -24,12 +24,14 @@
             margin: 0;
             padding: 0;
             font-family: 'Poppins', sans-serif;
+            -webkit-text-size-adjust: 100%;
         }
 
         body {
             background-color: #ffffff;
             color: var(--text-dark);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         a {
@@ -56,7 +58,7 @@
         }
 
         .logo {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             color: var(--text-dark);
             display: flex;
@@ -76,6 +78,7 @@
             justify-content: center;
             font-weight: 700;
             font-size: 18px;
+            flex-shrink: 0;
         }
 
         .nav-links {
@@ -107,6 +110,17 @@
             border: none;
             cursor: pointer;
             position: relative;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+        }
+
+        /* Mobile Hamburger Toggle Button */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
             color: var(--text-dark);
         }
 
@@ -167,6 +181,7 @@
             font-size: 12px;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 2px;
         }
 
@@ -184,6 +199,9 @@
             background: #fff;
             transition: box-shadow 0.2s;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .product-card:hover {
@@ -221,6 +239,7 @@
             align-items: center;
             justify-content: space-between;
             margin-bottom: 40px;
+            gap: 30px;
         }
 
         .hero-text {
@@ -228,7 +247,7 @@
         }
 
         .hero-text h1 {
-            font-size: 38px;
+            font-size: clamp(28px, 4vw, 38px);
             line-height: 1.2;
             margin-bottom: 16px;
         }
@@ -239,8 +258,11 @@
         }
 
         .hero-image img {
-            max-width: 350px;
+            max-width: 100%;
+            width: 350px;
+            height: auto;
             border-radius: 12px;
+            object-fit: cover;
         }
 
         .features-bar {
@@ -274,17 +296,21 @@
             grid-template-columns: 1fr 1fr;
             gap: 40px;
             margin-bottom: 40px;
+            align-items: center;
         }
 
         .main-img {
             width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
             border-radius: 12px;
             background: var(--bg-light);
             padding: 20px;
         }
 
         .product-info h2 {
-            font-size: 28px;
+            font-size: clamp(22px, 3vw, 28px);
             margin-bottom: 8px;
         }
 
@@ -339,6 +365,20 @@
             align-items: center;
         }
 
+        .about-image-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .about-image-wrapper img {
+            width: 100%;
+            max-width: 420px;
+            height: auto;
+            border-radius: 12px;
+            object-fit: contain;
+        }
+
         /* --- PAGE 8: BLOG PAGE --- */
         .blog-list {
             display: flex;
@@ -354,6 +394,7 @@
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
             padding: 16px;
+            align-items: center;
         }
 
         .blog-card img {
@@ -361,6 +402,7 @@
             height: 120px;
             object-fit: cover;
             border-radius: 6px;
+            flex-shrink: 0;
         }
 
         /* --- PAGE 9: CONTACT PAGE --- */
@@ -454,22 +496,84 @@
             margin: 0 auto;
         }
 
-        /* Responsive Breakpoints */
-        @media (max-width: 768px) {
-            .hero-banner, .product-detail {
-                grid-template-columns: 1fr;
-            }
+        /* --- RESPONSIVE MEDIA QUERIES FOR ALL BROWSERS & DEVICES --- */
+        @media (max-width: 1024px) {
             .footer-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: repeat(3, 1fr);
             }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: #fff;
+                flex-direction: column;
+                padding: 20px 24px;
+                border-bottom: 1px solid var(--border-color);
+                box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+                gap: 16px;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .hero-banner, .product-detail, .about-layout {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-image, .about-image-wrapper {
+                display: flex;
+                justify-content: center;
+            }
+
+            .product-features-list li {
+                justify-content: center;
+            }
+
             .features-bar {
                 grid-template-columns: repeat(2, 1fr);
             }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
             .blog-card {
                 flex-direction: column;
+                text-align: center;
             }
+
             .blog-card img {
                 width: 100%;
+                height: 160px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 16px;
+            }
+
+            .hero-banner {
+                padding: 20px;
+            }
+
+            .features-bar {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -484,7 +588,7 @@
                 <span>LKS SCHOOL</span>
             </div>
 
-            <ul class="nav-links">
+            <ul class="nav-links" id="navLinksMenu">
                 <li><a onclick="switchPage('home')" id="nav-home" class="active">Home</a></li>
                 <li><a onclick="switchPage('products')" id="nav-products">Products</a></li>
                 <li><a onclick="switchPage('bestsellers')" id="nav-bestsellers">Best Sellers</a></li>
@@ -494,7 +598,10 @@
             </ul>
 
             <div class="nav-actions">
-                <button class="icon-btn" onclick="switchPage('products')"><span class="material-icons-outlined">search</span></button>
+                <button class="icon-btn" onclick="switchPage('products')" aria-label="Search products"><span class="material-icons-outlined">search</span></button>
+                <button class="menu-toggle" id="menuToggleBtn" aria-label="Toggle navigation menu" onclick="toggleMobileMenu()">
+                    <span class="material-icons-outlined">menu</span>
+                </button>
             </div>
         </div>
     </header>
@@ -551,7 +658,7 @@
                     <p style="color: var(--text-muted);">Fun and engaging items that help kids learn while they play.</p>
                 </div>
 
-                <div style="display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 14px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 14px; flex-wrap: wrap; gap: 10px;">
                     <span>Showing 1–6 of 10 results</span>
                     <span>Sort by: <strong>Popularity</strong></span>
                 </div>
@@ -559,51 +666,63 @@
                 <div class="product-grid">
                     <!-- Product 1: Building Blocks -->
                     <div class="product-card">
-                        <img src="https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=300" alt="Building Blocks">
-                        <h4>Building Blocks</h4>
-                        <div class="rating">★★★★☆ (128)</div>
-                        <div class="price">₹499</div>
-                        <a href="https://amazon.com" target="_blank" class="btn" style="width: 100%; padding: 14px; margin-bottom: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=300" alt="Building Blocks">
+                            <h4>Building Blocks</h4>
+                            <div class="rating">★★★★☆ (128)</div>
+                            <div class="price">₹499</div>
+                        </div>
+                        <a href="https://amazon.com" target="_blank" rel="noopener noreferrer" class="btn" style="width: 100%; padding: 12px; margin-top: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
                     </div>
                     <!-- Product 2: Learning Clock -->
                     <div class="product-card">
-                        <img src="https://images.unsplash.com/photo-1563770660941-20978e870e26?w=300" alt="Learning Clock">
-                        <h4>Learning Clock</h4>
-                        <div class="rating">★★★★★ (96)</div>
-                        <div class="price">₹599</div>
-                        <a href="https://amazon.com" target="_blank" class="btn" style="width: 100%; padding: 14px; margin-bottom: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1563770660941-20978e870e26?w=300" alt="Learning Clock">
+                            <h4>Learning Clock</h4>
+                            <div class="rating">★★★★★ (96)</div>
+                            <div class="price">₹599</div>
+                        </div>
+                        <a href="https://amazon.com" target="_blank" rel="noopener noreferrer" class="btn" style="width: 100%; padding: 12px; margin-top: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
                     </div>
                     <!-- Product 3: Puzzle Game -->
                     <div class="product-card">
-                        <img src="https://images.unsplash.com/photo-1618842676088-c4d48a6a7c9d?w=300" alt="Puzzle Game">
-                        <h4>Puzzle Game</h4>
-                        <div class="rating">★★★★☆ (73)</div>
-                        <div class="price">₹399</div>
-                        <a href="https://amazon.com" target="_blank" class="btn" style="width: 100%; padding: 14px; margin-bottom: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1618842676088-c4d48a6a7c9d?w=300" alt="Puzzle Game">
+                            <h4>Puzzle Game</h4>
+                            <div class="rating">★★★★☆ (73)</div>
+                            <div class="price">₹399</div>
+                        </div>
+                        <a href="https://amazon.com" target="_blank" rel="noopener noreferrer" class="btn" style="width: 100%; padding: 12px; margin-top: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
                     </div>
                     <!-- Product 4: Talking Flash Cards -->
                     <div class="product-card">
-                        <img src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=300" alt="Talking Flash Cards">
-                        <h4>Talking Flash Cards</h4>
-                        <div class="rating">★★★★☆ (56)</div>
-                        <div class="price">₹699</div>
-                        <a href="https://amazon.com" target="_blank" class="btn" style="width: 100%; padding: 14px; margin-bottom: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=300" alt="Talking Flash Cards">
+                            <h4>Talking Flash Cards</h4>
+                            <div class="rating">★★★★☆ (56)</div>
+                            <div class="price">₹699</div>
+                        </div>
+                        <a href="https://amazon.com" target="_blank" rel="noopener noreferrer" class="btn" style="width: 100%; padding: 12px; margin-top: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
                     </div>
                     <!-- Product 5: Math Learning Set -->
                     <div class="product-card">
-                        <img src="https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=300" alt="Math Learning Set">
-                        <h4>Math Learning Set</h4>
-                        <div class="rating">★★★★★ (88)</div>
-                        <div class="price">₹799</div>
-                        <a href="https://amazon.com" target="_blank" class="btn" style="width: 100%; padding: 14px; margin-bottom: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=300" alt="Math Learning Set">
+                            <h4>Math Learning Set</h4>
+                            <div class="rating">★★★★★ (88)</div>
+                            <div class="price">₹799</div>
+                        </div>
+                        <a href="https://amazon.com" target="_blank" rel="noopener noreferrer" class="btn" style="width: 100%; padding: 12px; margin-top: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
                     </div>
                     <!-- Product 6: Science Kit -->
                     <div class="product-card">
-                        <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=300" alt="Science Kit">
-                        <h4>Science Kit</h4>
-                        <div class="rating">★★★★☆ (64)</div>
-                        <div class="price">₹999</div>
-                        <a href="https://amazon.com" target="_blank" class="btn" style="width: 100%; padding: 14px; margin-bottom: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=300" alt="Science Kit">
+                            <h4>Science Kit</h4>
+                            <div class="rating">★★★★☆ (64)</div>
+                            <div class="price">₹999</div>
+                        </div>
+                        <a href="https://amazon.com" target="_blank" rel="noopener noreferrer" class="btn" style="width: 100%; padding: 12px; margin-top: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
                     </div>
                 </div>
             </div>
@@ -618,7 +737,7 @@
                 </div>
                 <div class="product-info">
                     <h2>Building Blocks Set (120 Pieces)</h2>
-                    <div class="rating">★★★★☆ (128 Reviews)</div>
+                    <div class="rating" style="justify-content: flex-start;">★★★★☆ (128 Reviews)</div>
                     <div class="price">₹499</div>
                     <p style="color: var(--text-muted); font-size: 14px;">Colorful building blocks help kids improve creativity, imagination, and problem solving skills.</p>
                     
@@ -628,7 +747,7 @@
                         <li><span class="material-icons-outlined" style="color: var(--primary-color);">check_circle</span> Perfect for 3+ years kids</li>
                     </ul>
 
-                    <a href="https://amazon.com" target="_blank" class="btn" style="width: 100%; padding: 14px; margin-bottom: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
+                    <a href="https://amazon.com" target="_blank" rel="noopener noreferrer" class="btn" style="width: 100%; padding: 14px; margin-bottom: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
                 </div>
             </div>
 
@@ -651,28 +770,34 @@
 
             <div class="product-grid">
                 <div class="product-card">
-                    <span style="position: absolute; top: 10px; left: 10px; background: var(--primary-color); color: #fff; border-radius: 50%; width: 24px; height: 24px; font-weight: 700; z-index: 2;">1</span>
-                    <img src="https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=300" alt="Building Blocks">
-                    <h4>Building Blocks Set</h4>
-                    <div class="price">₹499</div>
-                    <div class="rating">★★★★☆ (128)</div>
-                    <a href="https://amazon.com" target="_blank" class="btn" style="width: 100%; padding: 14px; margin-bottom: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
+                    <span style="position: absolute; top: 10px; left: 10px; background: var(--primary-color); color: #fff; border-radius: 50%; width: 24px; height: 24px; font-weight: 700; z-index: 2; display: flex; align-items: center; justify-content: center; font-size: 12px;">1</span>
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=300" alt="Building Blocks">
+                        <h4>Building Blocks Set</h4>
+                        <div class="price">₹499</div>
+                        <div class="rating">★★★★☆ (128)</div>
+                    </div>
+                    <a href="https://amazon.com" target="_blank" rel="noopener noreferrer" class="btn" style="width: 100%; padding: 12px; margin-top: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
                 </div>
                 <div class="product-card">
-                    <span style="position: absolute; top: 10px; left: 10px; background: var(--primary-color); color: #fff; border-radius: 50%; width: 24px; height: 24px; font-weight: 700; z-index: 2;">2</span>
-                    <img src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=300" alt="Flash Cards">
-                    <h4>Talking Flash Cards</h4>
-                    <div class="price">₹699</div>
-                    <div class="rating">★★★★☆ (56)</div>
-                    <a href="https://amazon.com" target="_blank" class="btn" style="width: 100%; padding: 14px; margin-bottom: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
+                    <span style="position: absolute; top: 10px; left: 10px; background: var(--primary-color); color: #fff; border-radius: 50%; width: 24px; height: 24px; font-weight: 700; z-index: 2; display: flex; align-items: center; justify-content: center; font-size: 12px;">2</span>
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=300" alt="Flash Cards">
+                        <h4>Talking Flash Cards</h4>
+                        <div class="price">₹699</div>
+                        <div class="rating">★★★★☆ (56)</div>
+                    </div>
+                    <a href="https://amazon.com" target="_blank" rel="noopener noreferrer" class="btn" style="width: 100%; padding: 12px; margin-top: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
                 </div>
                 <div class="product-card">
-                    <span style="position: absolute; top: 10px; left: 10px; background: var(--primary-color); color: #fff; border-radius: 50%; width: 24px; height: 24px; font-weight: 700; z-index: 2;">3</span>
-                    <img src="https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=300" alt="Math Set">
-                    <h4>Math Learning Set</h4>
-                    <div class="price">₹799</div>
-                    <div class="rating">★★★★★ (88)</div>
-                    <a href="https://amazon.com" target="_blank" class="btn" style="width: 100%; padding: 14px; margin-bottom: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
+                    <span style="position: absolute; top: 10px; left: 10px; background: var(--primary-color); color: #fff; border-radius: 50%; width: 24px; height: 24px; font-weight: 700; z-index: 2; display: flex; align-items: center; justify-content: center; font-size: 12px;">3</span>
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1606092195730-5d7b9af1efc5?w=300" alt="Math Set">
+                        <h4>Math Learning Set</h4>
+                        <div class="price">₹799</div>
+                        <div class="rating">★★★★★ (88)</div>
+                    </div>
+                    <a href="https://amazon.com" target="_blank" rel="noopener noreferrer" class="btn" style="width: 100%; padding: 12px; margin-top: 12px; display: block; text-align: center;">Buy Now on Amazon</a>
                 </div>
             </div>
             <div style="text-align: center; margin-top: 30px;">
@@ -680,7 +805,7 @@
             </div>
         </section>
 
-        <!-- PAGE 7: ABOUT US PAGE -->
+        <!-- PAGE 7: ABOUT US PAGE (Updated with 3D Cartoon Image) -->
         <section id="page-about" class="page-view">
             <div class="about-layout">
                 <div>
@@ -697,8 +822,8 @@
                         <li><span class="material-icons-outlined" style="color: var(--primary-color);">check_circle</span> Excellent Customer Support</li>
                     </ul>
                 </div>
-                <div>
-                    <img src="https://img.freepik.com/free-vector/cute-boy-studying-with-laptop-cartoon-vector-icon-illustration-people-education-icon-concept-isolated_138676-5695.jpg?w=500" style="width: 100%; border-radius: 12px; object-fit: contain;" alt="3D Cartoon Kid Studying">
+                <div class="about-image-wrapper">
+                    <img src="https://img.freepik.com/free-vector/cute-boy-studying-with-laptop-cartoon-vector-icon-illustration-people-education-icon-concept-isolated_138676-5695.jpg?w=500" alt="3D Cartoon Kid Studying">
                 </div>
             </div>
         </section>
@@ -741,7 +866,7 @@
             <div class="contact-layout">
                 <h2 style="margin-bottom: 16px;">Contact Us</h2>
                 <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 14px;">Connect with us on Instagram for updates, queries, and support.</p>
-                <a href="https://instagram.com/lksschool_6" target="_blank" class="btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 30px;">
+                <a href="https://instagram.com/lksschool_6" target="_blank" rel="noopener noreferrer" class="btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 30px;">
                     <span class="material-icons-outlined">photo_camera</span> lksschool_6 Instagram
                 </a>
             </div>
@@ -862,7 +987,7 @@
             <div class="footer-col">
                 <h4>Connect</h4>
                 <p style="margin-bottom: 12px;">Follow us on Instagram for latest updates.</p>
-                <a href="https://instagram.com/lksschool_6" target="_blank" class="btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 16px; font-size: 13px;">
+                <a href="https://instagram.com/lksschool_6" target="_blank" rel="noopener noreferrer" class="btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 16px; font-size: 13px;">
                     <span class="material-icons-outlined" style="font-size: 16px;">photo_camera</span> lksschool_6 Follow
                 </a>
             </div>
@@ -873,7 +998,7 @@
         </div>
     </footer>
 
-    <!-- Interactive Navigation Logic -->
+    <!-- Interactive Navigation and Responsive Menu Logic -->
     <script>
         function switchPage(pageId) {
             // Hide all pages
@@ -895,8 +1020,21 @@
                 activeNav.classList.add('active');
             }
 
+            // Close mobile menu if open
+            const menu = document.getElementById('navLinksMenu');
+            if(menu) {
+                menu.classList.remove('open');
+            }
+
             // Scroll smoothly to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('navLinksMenu');
+            if(menu) {
+                menu.classList.toggle('open');
+            }
         }
     </script>
 </body>
